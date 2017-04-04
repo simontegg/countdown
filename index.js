@@ -9,6 +9,7 @@ const appEnv = cfenv.getAppEnv()
 app.get('/', function (req, res) {
   if (req.query.search) {
     return scrape(req.query.search, (err, products) => {
+      console.log({err, products})
       if (err) return res.status(500).end(err)
       res.json({ data: products })
     })
@@ -29,7 +30,6 @@ function scrape (search, callback) {
 
   nightmare.goto(url)
     .wait('.search-content')
-    .wait(Math.random() * 5000)
     .evaluate(function (search) {
       var products = []
       $('#product-list .product-stamp').each(function () {
