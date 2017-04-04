@@ -11,10 +11,13 @@ const appEnv = cfenv.getAppEnv()
 app.get('/', function (req, res) {
   if (req.query.search) {
     scrape(req.query.search, (err, products) => {
+      console.log({err, products})
       if (err) return res.status(500).end(err)
       request.post(DATASTORE_URL)
         .send({ data: products })
-        .end(console.log)
+        .end((err) => {
+          console.log({err})    
+        })
     })
      
     return res.send(`Searching ${req.query.search}`)
@@ -58,7 +61,7 @@ function scrape (search, callback) {
       })
 
       return products
-    }, search, parsePrice)
+    }, search)
     .end()
     .then((products) => callback(null, parsePrices(products)))
     .catch(callback)
