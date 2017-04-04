@@ -14,7 +14,7 @@ app.get('/', function (req, res) {
       if (err) return res.status(500).end(err)
     })
      
-    return res.send(`Searching ${search}`)
+    return res.send(`Searching ${req.query.search}`)
   }
   
   res.status(400).send('no search')
