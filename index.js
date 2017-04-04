@@ -3,6 +3,7 @@ const parsePrice = require('parse-price')
 const Nightmare = require('nightmare')
 const request = require('superagent')
 const cfenv = require('cfenv')
+const DATASTORE_URL = 'https://us-central1-scaper-162700.cloudfunctions.net/datastore'
 
 const app = express()
 const appEnv = cfenv.getAppEnv()
@@ -10,8 +11,10 @@ const appEnv = cfenv.getAppEnv()
 app.get('/', function (req, res) {
   if (req.query.search) {
     scrape(req.query.search, (err, products) => {
-      console.log({err, products})
       if (err) return res.status(500).end(err)
+      request.post(DATASTORE_URL)
+        .send({ data: products })
+        .end(console.log)
     })
      
     return res.send(`Searching ${req.query.search}`)
@@ -22,7 +25,6 @@ app.get('/', function (req, res) {
 
 app.listen(appEnv.port || 8080, function () {
   console.log(`server started on ${appEnv.port}`)        
-          
 })
 
 function scrape (search, callback) {
@@ -47,6 +49,7 @@ function scrape (search, callback) {
           .replace(`&searchString=${search}`, '')
 
         products.push({
+          store: 'countdown',
           href: href,
           search: search,
           description: description,
