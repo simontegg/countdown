@@ -1,6 +1,7 @@
 const express = require('express')
 const parsePrice = require('parse-price')
 const Nightmare = require('nightmare')
+const request = require('superagent')
 const cfenv = require('cfenv')
 
 const app = express()
@@ -8,11 +9,12 @@ const appEnv = cfenv.getAppEnv()
 
 app.get('/', function (req, res) {
   if (req.query.search) {
-    return scrape(req.query.search, (err, products) => {
+    scrape(req.query.search, (err, products) => {
       console.log({err, products})
       if (err) return res.status(500).end(err)
-      res.json({ data: products })
     })
+     
+    return res.send(`Searching ${search}`)
   }
   
   res.status(400).send('no search')

@@ -1,4 +1,4 @@
 applications:
 - name: countdown-scraper
-  memory: 512M
+  memory: 124M
   command: node index.js
