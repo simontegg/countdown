@@ -40,8 +40,8 @@ RUN npm install
 COPY . /usr/src/app
 
 ENV NODE_ENV production
-ENV PORT 8080
-EXPOSE 8080
+ENV PORT 80
+EXPOSE 80
 
 COPY entrypoint.sh /entrypoint
 RUN chmod +x /entrypoint

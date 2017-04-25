@@ -3,12 +3,11 @@ const bodyParser = require('body-parser')
 const parsePrice = require('parse-price')
 const Nightmare = require('nightmare')
 const request = require('superagent')
-const cfenv = require('cfenv')
 const DATASTORE_URL = 'https://us-central1-tech-jobs-144509.cloudfunctions.net/datastore'
+const PORT = process.env.PORT || 8080
 
 const app = express()
 app.use(bodyParser.json())
-const appEnv = cfenv.getAppEnv()
 
 app.get('/', function (req, res) {
   if (req.query.search) {
@@ -28,8 +27,8 @@ app.get('/', function (req, res) {
   }
 })
 
-app.listen(appEnv.port || 8080, function () {
-  console.log(`server started on ${appEnv.port}`)        
+app.listen(PORT, function () {
+  console.log(`server started on ${PORT}`)        
 })
 
 function scrape (search, callback) {

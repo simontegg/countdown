@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "body-parser": "^1.17.1",
-    "cfenv": "^1.0.4",
     "debug": "^2.6.3",
     "electron": "^1.6.2",
     "express": "^4.15.2",
