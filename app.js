@@ -1,11 +1,13 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 const parsePrice = require('parse-price')
 const Nightmare = require('nightmare')
 const request = require('superagent')
 const cfenv = require('cfenv')
-const DATASTORE_URL = 'https://us-central1-scaper-162700.cloudfunctions.net/datastore'
+const DATASTORE_URL = 'https://us-central1-tech-jobs-144509.cloudfunctions.net/datastore'
 
 const app = express()
+app.use(bodyParser.json())
 const appEnv = cfenv.getAppEnv()
 
 app.get('/', function (req, res) {
@@ -21,9 +23,9 @@ app.get('/', function (req, res) {
     })
      
     return res.send(`Searching ${req.query.search}`)
+  } else {
+    res.status(400).send('no search')
   }
-  
-  res.status(400).send('no search')
 })
 
 app.listen(appEnv.port || 8080, function () {
